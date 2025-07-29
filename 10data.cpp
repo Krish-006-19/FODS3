@@ -48,7 +48,7 @@ void printName(char Name[]) {
         cin >> Name;
         valid = true;
         for (int i = 0; i < strlen(Name); i++) {
-            if (!isalpha(Name[i]) && Name[i] != '_') {
+            if (!((Name[i] >= 'A' && Name[i] <= 'Z') || (Name[i] >= 'a' && Name[i] <= 'z')) && Name[i] != '_'){
                 cout << "Invalid name. Use letters and underscore only.\n";
                 valid = false;
                 break;
@@ -73,7 +73,7 @@ void printRollno(char Rollno[]) {
         cin >> Rollno;
         valid = true;
         for (int i = 0; i < strlen(Rollno); i++) {
-            if (!isdigit(Rollno[i])) {
+            if(!(Rollno[i] >= '0' && Rollno[i] <= '9')){
                 cout << "Roll number should be numeric.\n";
                 valid = false;
                 break;
@@ -150,7 +150,7 @@ void printNumber(char Number[]) {
 
         valid = strlen(Number) == 10;
         for (int i = 0; i < 10 && valid; i++) {
-            if (!isdigit(Number[i])) {
+            if(!(Number[i] >= '0' && Number[i] <= '9')){
                 valid = false;
                 break;
             }
@@ -235,7 +235,6 @@ int main() {
     }
     cout << "]\n";
 
-    // Cleanup
     temp = head;
     while (temp) {
         Node* next = temp->next;
