@@ -25,21 +25,6 @@ public:
     }
 };
 
-// Function declarations
-void printName(char Name[]);
-bool isDuplicateName(Node* head, char Name[]);
-
-void printRollno(char Rollno[]);
-bool isDuplicateRollno(Node* head, char Rollno[]);
-
-void printMarks(float* Marks);
-
-void printEmail(char Email[]);
-bool isDuplicateEmail(Node* head, char Email[]);
-
-void printNumber(char Number[]);
-bool isDuplicateNumber(Node* head, char Number[]);
-
 // Name Input
 void printName(char Name[]) {
     bool valid = false;
