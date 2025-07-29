@@ -16,7 +16,7 @@ public:
         strcpy(rollno,Rollno);
         marks = Marks;
         strcpy(number,Number);
-        strcpy(name,Name);
+        strcpy(email,Email);
     }
 };
 
