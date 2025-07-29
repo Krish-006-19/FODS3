@@ -172,12 +172,22 @@ bool isDuplicateNumber(Node* head, char Number[]) {
 int main() {
     char Name[100], Rollno[10], Email[100], Number[11];
     float Marks;
-    int total = 3;
 
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    int total;
+    cout << "Enter total number of students: ";
+    cin >> total;
 
-    for (int i = 0; i < total; i++) {
+    cout << "\nStudent 1:\n";
+    printName(Name);
+    printRollno(Rollno);
+    printMarks(&Marks);
+    printEmail(Email);
+    printNumber(Number);
+
+    Node* head = new Node(Name, Rollno, Marks, Email, Number);
+    Node* tail = head;
+
+    for (int i = 1; i < total; i++) {
         cout << "\nStudent " << i + 1 << ":\n";
 
         while (true) {
@@ -207,11 +217,8 @@ int main() {
         }
 
         Node* newNode = new Node(Name, Rollno, Marks, Email, Number);
-        if (!head) head = tail = newNode;
-        else {
-            tail->next = newNode;
-            tail = newNode;
-        }
+        tail->next = newNode;
+        tail = newNode;
     }
 
     cout << "\nFinal Student Records:\n[\n";
