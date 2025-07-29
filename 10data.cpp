@@ -90,17 +90,32 @@ void printMarks(float* Marks) {
 
 void printEmail(char Email[]) {
     bool valid = false;
-    while (!valid) {
+ while (!valid) {
         cout << "\nEnter email: ";
         cin >> Email;
         int len = strlen(Email);
         valid = true;
 
-        if (len < 13 || strcmp(Email + len - 8, "@vit.edu") != 0) {
-            cout << "Invalid email format. Must end with @vit.edu\n";
+        if (len < 9 || strcmp(Email + len - 8, "@vit.edu") != 0) {
+            cout << " Invalid email format: Must end with @vit.edu\n";
             valid = false;
             continue;
         }
+
+        if (Email[0] == '.' || Email[len - 1] == '.') {
+            cout << " Email can't start or end with a dot.\n";
+            valid = false;
+            continue;
+        }
+
+        for (int i = 0; i < len - 1; i++) {
+            if (Email[i] == '.' && Email[i + 1] == '.') {
+                cout << " Invalid email: consecutive dots found.\n";
+                valid = false;
+                break;
+            }
+        }
+        if (!valid) continue;
 
         int atCount = 0, atPos = -1;
         for (int i = 0; i < len; i++) {
@@ -109,12 +124,28 @@ void printEmail(char Email[]) {
                 atPos = i;
             }
         }
-
-        if (atCount != 1 || atPos < 3 || strchr(Email, '.') == nullptr) {
-            cout << "Invalid email structure.\n";
+        if (atCount != 1) {
+            cout << " Email must contain exactly one '@' symbol.\n";
             valid = false;
+            continue;
         }
+
+        bool dotAfterAt = false;
+        for (int i = atPos + 1; i < len; i++) {
+            if (Email[i] == '.') {
+                dotAfterAt = true;
+                break;
+            }
+        }
+        if (!dotAfterAt) {
+            cout << " Email must contain at least one '.' after '@'.\n";
+            valid = false;
+            continue;
+        }
+
     }
+
+    cout << " Email accepted: " << Email << endl;
 }
 
 bool isDuplicateEmail(Node* head, char Email[]) {
