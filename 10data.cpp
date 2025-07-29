@@ -2,181 +2,239 @@
 #include<cstring>
 using namespace std;
 
-class Data {
-public:
-    char email[100];
-    char number[10];
-    char rollno[2];
-    char name[100];
-    float marks;
-
-    Data() {}
-    Data(char Name[], char Rollno[], float Marks, char Email[], char Number[]) {
-        strcpy(name,Name);
-        strcpy(rollno,Rollno);
-        marks = Marks;
-        strcpy(number,Number);
-        strcpy(email,Email);
-    }
-};
-
 class Node {
 public:
-    Data data;
+    char email[100];
+    char number[11];
+    char rollno[10];
+    char name[100];
+    float marks;
     Node* next;
 
-    Node(Data obj){  
-        data = obj; 
+    Node(char Name[], char Rollno[], float Marks, char Email[], char Number[]) {
+        strcpy(name, Name);
+        strcpy(rollno, Rollno);
+        marks = Marks;
+        strcpy(email, Email);
+        strcpy(number, Number);
         next = nullptr;
-     }
+    }
 
     ~Node() {
         delete next;
     }
 };
 
-void print(char Name[], char Rollno[], float* Marks, char Email[], char Number[]){
-        bool validName = false;
-        while (!validName) {
-            cout << "\nEnter the name of the student as (name_surname): ";
-            cin >> Name;
+// Function declarations
+void printName(char Name[]);
+bool isDuplicateName(Node* head, char Name[]);
 
-            validName = true;
-            int len = strlen(Name);
-            for (int j = 0; j < len; j++) {
-                if (!((Name[j] >= 'A' && Name[j] <= 'Z') || (Name[j] >= 'a' && Name[j] <= 'z') || Name[j] == '_')) {
-                    cout << "Invalid character in name. Only letters and underscore allowed.\n";
-                    validName = false;
-                    break;
-                }
+void printRollno(char Rollno[]);
+bool isDuplicateRollno(Node* head, char Rollno[]);
+
+void printMarks(float* Marks);
+
+void printEmail(char Email[]);
+bool isDuplicateEmail(Node* head, char Email[]);
+
+void printNumber(char Number[]);
+bool isDuplicateNumber(Node* head, char Number[]);
+
+// Name Input
+void printName(char Name[]) {
+    bool valid = false;
+    while (!valid) {
+        cout << "\nEnter the name (name_surname): ";
+        cin >> Name;
+        valid = true;
+        for (int i = 0; i < strlen(Name); i++) {
+            if (!isalpha(Name[i]) && Name[i] != '_') {
+                cout << "Invalid name. Use letters and underscore only.\n";
+                valid = false;
+                break;
             }
         }
-        bool validRollno = false;
-        while (!validRollno) {
-            cout << "\nEnter the rollno: ";
-            cin >> Rollno;
-            validRollno = true;
-
-            for(int j = 0; j < strlen(Rollno); j++) {
-                if(!(Rollno[j] >= '0' && Rollno[j] <= '9')) {
-                    cout << "Invalid roll number. Only digits allowed.\n";
-                    validRollno = false;
-                    break;
-                }
-            }
-        }
-        bool validMarks = false;
-        while (!validMarks) {
-            cout << "\nEnter the marks of the student: ";
-            cin >> *Marks;
-            if(*Marks > 100 || *Marks < 0) {
-                cout << "Invalid marks. Please enter marks between 0 and 100.\n";
-            } else {
-                validMarks = true;
-            }
-        }
-
-        bool validEmail = false;
-        while (!validEmail) {
-            cout << "\nEnter the college email (name.surname@vit.edu): ";
-            cin >> Email;
-            validEmail = true;
-            int len = strlen(Email);
-            if (len < 13) {
-                cout << "Invalid email. Too short.\n";
-                continue;
-            }
-
-            const char* suffix = "@vit.edu";
-            bool endsWithVit = strcmp(Email + len - 8, suffix) == 0;
-
-            if (!endsWithVit) {
-                cout << "Invalid email. Must end with @vit.edu\n";
-                continue;
-            }
-
-            int atCount = 0;
-            int atIndex = -1;
-            for (int j = 0; j < len; j++) {
-                if (Email[j] == '@') {
-                    atCount++;
-                    atIndex = j;
-                }
-            }
-
-            if (atCount != 1 || atIndex < 3) {
-                cout << "Invalid email. Must contain one '@' and valid name before it.\n";
-                validEmail = false;
-                continue;
-            }
-
-            bool hasDot = false;
-            for (int j = 0; j < atIndex; j++) {
-                if (Email[j] == '.') {
-                    hasDot = true;
-                    break;
-                }
-            }
-
-            if (!hasDot) {
-                cout << "Invalid email. Must be in format name.surname@vit.edu\n";
-                validEmail = false;
-                continue;
-            }
-        }
-        bool validNumber = false;
-        while (!validNumber) {
-            cout << "\nEnter the mobile number of the student: ";
-            cin >> Number;
-
-            if(strlen(Number) != 10) {
-                cout << "Invalid mobile number length. Please enter a 10-digit number.\n";
-                continue;
-            }
-
-            validNumber = true;
-            for(int j = 0; j < 10; j++) {
-                if(!(Number[j] >= '0' && Number[j] <= '9')) {
-                    cout << "Invalid mobile number. Digits only.\n";
-                    validNumber = false;
-                    break;
-                }
-            }
-        }
+    }
 }
 
-int main(){
-    char Name[100]; 
-    char Rollno[2]; 
-    float Marks; 
-    char Email[50]; 
-    char Number[10];
-    print(Name,Rollno,&Marks,Email,Number);
-    
-    Data obj(Name, Rollno, Marks, Email, Number);
-    Node* head = new Node(obj);
-    Node* tail = head;
-
-    for(int i = 0; i < 2; i++){
-        print(Name,Rollno,&Marks,Email,Number);
-
-        Data obj(Name, Rollno, Marks, Email, Number);
-        Node* newNode = new Node(obj);
-        tail->next = newNode;
-        tail = newNode;
+bool isDuplicateName(Node* head, char Name[]) {
+    while (head) {
+        if (strcmp(head->name, Name) == 0) return true;
+        head = head->next;
     }
+    return false;
+}
+
+// Rollno Input
+void printRollno(char Rollno[]) {
+    bool valid = false;
+    while (!valid) {
+        cout << "\nEnter roll number: ";
+        cin >> Rollno;
+        valid = true;
+        for (int i = 0; i < strlen(Rollno); i++) {
+            if (!isdigit(Rollno[i])) {
+                cout << "Roll number should be numeric.\n";
+                valid = false;
+                break;
+            }
+        }
+    }
+}
+
+bool isDuplicateRollno(Node* head, char Rollno[]) {
+    while (head) {
+        if (strcmp(head->rollno, Rollno) == 0) return true;
+        head = head->next;
+    }
+    return false;
+}
+
+// Marks Input
+void printMarks(float* Marks) {
+    bool valid = false;
+    while (!valid) {
+        cout << "\nEnter marks (0-100): ";
+        cin >> *Marks;
+        if (*Marks >= 0 && *Marks <= 100)
+            valid = true;
+        else
+            cout << "Marks must be between 0 and 100.\n";
+    }
+}
+
+// Email Input
+void printEmail(char Email[]) {
+    bool valid = false;
+    while (!valid) {
+        cout << "\nEnter email (name.surname@vit.edu): ";
+        cin >> Email;
+        int len = strlen(Email);
+        valid = true;
+
+        if (len < 13 || strcmp(Email + len - 8, "@vit.edu") != 0) {
+            cout << "Invalid email format. Must end with @vit.edu\n";
+            valid = false;
+            continue;
+        }
+
+        int atCount = 0, atPos = -1;
+        for (int i = 0; i < len; i++) {
+            if (Email[i] == '@') {
+                atCount++;
+                atPos = i;
+            }
+        }
+
+        if (atCount != 1 || atPos < 3 || strchr(Email, '.') == nullptr) {
+            cout << "Invalid email structure.\n";
+            valid = false;
+        }
+    }
+}
+
+bool isDuplicateEmail(Node* head, char Email[]) {
+    while (head) {
+        if (strcmp(head->email, Email) == 0) return true;
+        head = head->next;
+    }
+    return false;
+}
+
+// Mobile Number Input
+void printNumber(char Number[]) {
+    bool valid = false;
+    while (!valid) {
+        cout << "\nEnter 10-digit mobile number: ";
+        cin >> Number;
+
+        valid = strlen(Number) == 10;
+        for (int i = 0; i < 10 && valid; i++) {
+            if (!isdigit(Number[i])) {
+                valid = false;
+                break;
+            }
+        }
+
+        if (!valid)
+            cout << "Invalid number. Only 10 digits allowed.\n";
+    }
+}
+
+bool isDuplicateNumber(Node* head, char Number[]) {
+    while (head) {
+        if (strcmp(head->number, Number) == 0) return true;
+        head = head->next;
+    }
+    return false;
+}
+
+int main() {
+    char Name[100], Rollno[10], Email[100], Number[11];
+    float Marks;
+    int total = 3;
+
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for (int i = 0; i < total; i++) {
+        cout << "\nStudent " << i + 1 << ":\n";
+
+        while (true) {
+            printName(Name);
+            if (!isDuplicateName(head, Name)) break;
+            cout << "Name already exists. Try a different one.\n";
+        }
+
+        while (true) {
+            printRollno(Rollno);
+            if (!isDuplicateRollno(head, Rollno)) break;
+            cout << "Roll number already exists.\n";
+        }
+
+        printMarks(&Marks);
+
+        while (true) {
+            printEmail(Email);
+            if (!isDuplicateEmail(head, Email)) break;
+            cout << "Email already exists.\n";
+        }
+
+        while (true) {
+            printNumber(Number);
+            if (!isDuplicateNumber(head, Number)) break;
+            cout << "Mobile number already exists.\n";
+        }
+
+        Node* newNode = new Node(Name, Rollno, Marks, Email, Number);
+        if (!head) head = tail = newNode;
+        else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    cout << "\nFinal Student Records:\n[\n";
     Node* temp = head;
-    cout<<"[\n";
-    while(temp){
-        cout<<"\t{\n";
-        cout<<"\t\t"<<"Name: "<<temp->data.name<<endl;
-        cout<<"\t\t"<<"Rollno: "<<temp->data.rollno<<endl;
-        cout<<"\t\t"<<"Marks: "<<temp->data.marks<<endl;
-        cout<<"\t\t"<<"Email: "<<temp->data.email<<endl;
-        cout<<"\t\t"<<"Number: "<<temp->data.number<<endl;
-        cout<<"\t},\n";
+    while (temp) {
+        cout << "\t{\n";
+        cout << "\t\tName: " << temp->name << "\n";
+        cout << "\t\tRollno: " << temp->rollno << "\n";
+        cout << "\t\tMarks: " << temp->marks << "\n";
+        cout << "\t\tEmail: " << temp->email << "\n";
+        cout << "\t\tNumber: " << temp->number << "\n";
+        cout << "\t},\n";
         temp = temp->next;
     }
-    cout<<"\n]";
+    cout << "]\n";
+
+    // Cleanup
+    temp = head;
+    while (temp) {
+        Node* next = temp->next;
+        delete temp;
+        temp = next;
+    }
+
     return 0;
 }
