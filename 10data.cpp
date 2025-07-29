@@ -1,5 +1,6 @@
 #include<iostream>
 #include<cstring>
+#include <ctype.h>  
 using namespace std;
 
 class Node {
@@ -25,11 +26,10 @@ public:
     }
 };
 
-// Name Input
 void printName(char Name[]) {
     bool valid = false;
     while (!valid) {
-        cout << "\nEnter the name (name_surname): ";
+        cout << "\nEnter the name: ";
         cin >> Name;
         valid = true;
         for (int i = 0; i < strlen(Name); i++) {
@@ -43,6 +43,8 @@ void printName(char Name[]) {
 }
 
 bool isDuplicateName(Node* head, char Name[]) {
+    for(int i = 0;i<strlen(Name);i++)
+        Name[i] = tolower(Name[i]);
     while (head) {
         if (strcmp(head->name, Name) == 0) return true;
         head = head->next;
@@ -50,10 +52,9 @@ bool isDuplicateName(Node* head, char Name[]) {
     return false;
 }
 
-// Rollno Input
 void printRollno(char Rollno[]) {
     bool valid = false;
-    while (!valid) {
+    while (!valid){
         cout << "\nEnter roll number: ";
         cin >> Rollno;
         valid = true;
@@ -75,12 +76,11 @@ bool isDuplicateRollno(Node* head, char Rollno[]) {
     return false;
 }
 
-// Marks Input
 void printMarks(float* Marks) {
     bool valid = false;
     while (!valid) {
         cout << "\nEnter marks (0-100): ";
-        cin >> *Marks;
+        cin >> *Marks; 
         if (*Marks >= 0 && *Marks <= 100)
             valid = true;
         else
@@ -88,11 +88,10 @@ void printMarks(float* Marks) {
     }
 }
 
-// Email Input
 void printEmail(char Email[]) {
     bool valid = false;
     while (!valid) {
-        cout << "\nEnter email (name.surname@vit.edu): ";
+        cout << "\nEnter email: ";
         cin >> Email;
         int len = strlen(Email);
         valid = true;
@@ -119,6 +118,8 @@ void printEmail(char Email[]) {
 }
 
 bool isDuplicateEmail(Node* head, char Email[]) {
+    for(int i = 0;i<strlen(Email);i++)
+        Email[i] = tolower(Email[i]);
     while (head) {
         if (strcmp(head->email, Email) == 0) return true;
         head = head->next;
@@ -126,7 +127,6 @@ bool isDuplicateEmail(Node* head, char Email[]) {
     return false;
 }
 
-// Mobile Number Input
 void printNumber(char Number[]) {
     bool valid = false;
     while (!valid) {
@@ -158,9 +158,7 @@ int main() {
     char Name[100], Rollno[10], Email[100], Number[11];
     float Marks;
 
-    int total;
-    cout << "Enter total number of students: ";
-    cin >> total;
+    int total = 10;
 
     cout << "\nStudent 1:\n";
     printName(Name);
