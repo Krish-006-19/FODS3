@@ -142,10 +142,7 @@ void printEmail(char Email[]) {
             valid = false;
             continue;
         }
-
     }
-
-    cout << " Email accepted: " << Email << endl;
 }
 
 bool isDuplicateEmail(Node* head, char Email[]) {
