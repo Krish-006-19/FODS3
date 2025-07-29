@@ -129,7 +129,8 @@ void printEmail(char Email[]) {
                 atCount++;
                 atPos = i;
             }
-            if(Email[atPos-1] == '.'){
+            if(atPos&&atPos!=-1)
+                if(Email[atPos-1] == '.'){
                 cout << " Invalid email: dot found just before @.\n";
                 valid = false;
                 break;
