@@ -95,14 +95,20 @@ void printEmail(char Email[]) {
         cin >> Email;
         int len = strlen(Email);
         valid = true;
-
+        for(int i = 0; i < len; i++){
+            if(Email[i]=='('||Email[i]==')'||Email[i]=='#'||Email[i]=='['||Email[i]==']'||Email[i]=='\''||Email[i]==';'||Email[i]==':'||Email[i]==','||Email[i]=='<'||Email[i]=='>'||Email[i]=='"'){
+                cout << " Invalid email: contains illegal characters.\n";
+                valid = false;
+                break;
+            }
+        }
         if (len < 9 || strcmp(Email + len - 8, "@vit.edu") != 0) {
             cout << " Invalid email format: Must end with @vit.edu\n";
             valid = false;
             continue;
         }
 
-        if (Email[0] == '.' || Email[len - 1] == '.') {
+        if (Email[0] == '.') {
             cout << " Email can't start or end with a dot.\n";
             valid = false;
             continue;
@@ -122,6 +128,11 @@ void printEmail(char Email[]) {
             if (Email[i] == '@') {
                 atCount++;
                 atPos = i;
+            }
+            if(Email[atPos-1] == '.'){
+                cout << " Invalid email: dot found just before @.\n";
+                valid = false;
+                break;
             }
         }
         if (atCount != 1) {
